@@ -19,19 +19,8 @@ def get_most_frequent_words(text):
 
 
 if __name__ == '__main__':
-    try:
-        text = load_data(argv[1])
-    except IndexError:
-        print("File not specified!")
-        exit()
-    except FileNotFoundError:
-        print("File not found, or unreadable!")
-        exit()
-
-    if text:
-        most_frequent_words = get_most_frequent_words(text)
-        print("The most frequent words in your text:")
-        for word, count in most_frequent_words:
-            print(word, count)
-    else:
-        print("File is empty!")
+    text = load_data(argv[1])
+    most_frequent_words = get_most_frequent_words(text)
+    print("The most frequent words in your text:")
+    for word, count in most_frequent_words:
+        print(word, count) 

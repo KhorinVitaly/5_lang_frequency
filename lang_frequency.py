@@ -1,26 +1,41 @@
 import re
+import collections
 from sys import argv
 from operator import itemgetter
 
 
 def load_data(filepath):
-    with open(filepath, "r") as file:
-        return file.read()
+    try:
+        with open(filepath, "r") as file:
+            return file.read()
+    except FileNotFoundError:
+        return None
+
 
 def get_most_frequent_words(text):
-    words = re.findall(r'(\w+)', text, re.UNICODE)
-    statistic = {}
+    lower_text = text.lower()
+    words = re.findall(r'(\w+)', lower_text, re.UNICODE)
+    statistic = collections.Counter()
+    word_quantity_in_top = 10
 
     for word in words:
-        statistic[word] = statistic.get(word, 0) + 1
+        statistic[word] += 1
 
     sorted_list = sorted(statistic.items(), key=itemgetter(1), reverse=True)
-    return sorted_list[:10]
+    return sorted_list[:word_quantity_in_top]
 
 
 if __name__ == '__main__':
-    text = load_data(argv[1])
-    most_frequent_words = get_most_frequent_words(text)
-    print("The most frequent words in your text:")
-    for word, count in most_frequent_words:
-        print(word, count) 
+    try:
+        text = load_data(argv[1])
+    except IndexError:
+        print("File not specified!")
+        exit()
+
+    if text:
+        most_frequent_words = get_most_frequent_words(text)
+        print("The most frequent words in your text:")
+        for word, count in most_frequent_words:
+            print(word, count)
+    else:
+        print("Text file is empty")

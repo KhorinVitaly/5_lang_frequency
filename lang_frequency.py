@@ -1,7 +1,6 @@
 import re
 import collections
 from sys import argv
-from operator import itemgetter
 
 
 def load_data(filepath):
@@ -21,8 +20,7 @@ def get_most_frequent_words(text):
     for word in words:
         statistic[word] += 1
 
-    sorted_list = sorted(statistic.items(), key=itemgetter(1), reverse=True)
-    return sorted_list[:word_quantity_in_top]
+    return statistic.most_common(word_quantity_in_top)
 
 
 if __name__ == '__main__':
